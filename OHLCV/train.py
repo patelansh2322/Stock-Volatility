@@ -10,18 +10,15 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 df = pd.read_csv('OHLCV/clean_OHLCV.csv')
 
-for lag in range(1, 6):
-    df[f'vol_lag{lag}'] = df['volatility'].shift(lag)
+df[f'vol_lag{1}'] = df['volatility'].shift(1)
 
 df.dropna(inplace=True)
 
 feature_cols = [
     'Open', 'High', 'Low', 'Close', 'Volume', 'ret', 'hl_range',
     'oc_move', 'vol_change',
-    'stock2vec_1', 'stock2vec_2', 'stock2vec_3', 'stock2vec_4'
+    'stock2vec_1', 'stock2vec_2', 'stock2vec_3', 'stock2vec_4', 'vol_lag1'
 ]
-lag_cols = [c for c in df.columns if 'vol_lag' in c]
-feature_cols += lag_cols
 
 X = df[feature_cols].values
 y = df['volatility'].values.reshape(-1, 1)

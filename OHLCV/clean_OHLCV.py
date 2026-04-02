@@ -11,11 +11,7 @@ corr = return_pivot.corr()
 pca = PCA(n_components=4)
 embeddings = pca.fit_transform(corr)
 
-stock2vec = pd.DataFrame(
-    embeddings, 
-    index=corr.index, 
-    columns=["stock2vec_1", "stock2vec_2", "stock2vec_3", "stock2vec_4"]
-).reset_index().rename(columns={"index": "ticker"})
+stock2vec = pd.DataFrame(embeddings, index=corr.index, columns=["stock2vec_1", "stock2vec_2", "stock2vec_3", "stock2vec_4"]).reset_index().rename(columns={"index": "ticker"})
 
 df = df.merge(stock2vec, on="ticker", how="left")
 df['date'] = pd.to_datetime(df['date'])
